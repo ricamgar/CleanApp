@@ -19,7 +19,7 @@ class PostsRepositoryTest {
     private val postsRepository = PostsRepository(localDataSourceMock, remoteDataSourceMock)
 
     @Test
-    fun shouldReturnOnlineDataWhenFetchingSuccess() = runBlockingTest {
+    fun `should return online data when fetching succeeds`() = runBlockingTest {
         val postsList = createListOfPosts()
         whenever(remoteDataSourceMock.fetchAllPosts()).thenReturn(postsList)
 
@@ -30,7 +30,7 @@ class PostsRepositoryTest {
     }
 
     @Test
-    fun shouldReturnOfflineDataWhenFetchingFails() = runBlockingTest {
+    fun `should return offline data when fetching fails`() = runBlockingTest {
         val postsList = createListOfPosts()
         whenever(remoteDataSourceMock.fetchAllPosts()).doAnswer { throw IOException() }
         whenever(localDataSourceMock.getAllPosts()).thenReturn(postsList)
@@ -42,7 +42,7 @@ class PostsRepositoryTest {
     }
 
     @Test
-    fun shouldReturnCommentsWhenFetchingSuccess() = runBlockingTest {
+    fun `should return comments when fetching succeeds`() = runBlockingTest {
         val postId = 0
         val comments = createListOfComments()
         whenever(remoteDataSourceMock.fetchCommentsByPost(postId)).thenReturn(comments)
@@ -53,10 +53,10 @@ class PostsRepositoryTest {
         assertEquals(response.data, comments)
     }
 
-    @Test(expected = IOException::class)
-    fun shouldReturnExceptionWhenFetchingFails() = runBlockingTest {
+    @Test(expected = Throwable::class)
+    fun `should return exception when fetching fails`() = runBlockingTest {
         val postId = 0
-        whenever(remoteDataSourceMock.fetchCommentsByPost(postId)).doAnswer { throw IOException() }
+        whenever(remoteDataSourceMock.fetchCommentsByPost(postId)).doAnswer { throw Throwable() }
 
         postsRepository.getComments(postId)
     }
