@@ -3,10 +3,7 @@ package com.ricamgar.domain.repository
 import com.nhaarman.mockitokotlin2.doAnswer
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import com.ricamgar.domain.model.Address
-import com.ricamgar.domain.model.Company
-import com.ricamgar.domain.model.Post
-import com.ricamgar.domain.model.User
+import com.ricamgar.domain.model.*
 import com.ricamgar.domain.repository.datasource.LocalDataSource
 import com.ricamgar.domain.repository.datasource.RemoteDataSource
 import junit.framework.TestCase.assertEquals
@@ -44,6 +41,26 @@ class PostsRepositoryTest {
         assertEquals(response.data, postsList)
     }
 
+    @Test
+    fun shouldReturnCommentsWhenFetchingSuccess() = runBlockingTest {
+        val postId = 0
+        val comments = createListOfComments()
+        whenever(remoteDataSourceMock.fetchCommentsByPost(postId)).thenReturn(comments)
+
+        val response = postsRepository.getComments(postId)
+
+        assertEquals(response.online, true)
+        assertEquals(response.data, comments)
+    }
+
+    @Test(expected = IOException::class)
+    fun shouldReturnExceptionWhenFetchingFails() = runBlockingTest {
+        val postId = 0
+        whenever(remoteDataSourceMock.fetchCommentsByPost(postId)).doAnswer { throw IOException() }
+
+        postsRepository.getComments(postId)
+    }
+
     private fun createListOfPosts(number: Int = 10): List<Post> {
         return (1..number).map {
             val address = Address("street$it", "suite$it", "city$it")
@@ -52,7 +69,13 @@ class PostsRepositoryTest {
                 1, "User$it", "username$it", "mail$it@domain.com", address, "123456",
                 "website$it.com", company
             )
-            Post(it, user, "title$it", "body$it", emptyList())
+            Post(it, user, "title$it", "body$it")
+        }
+    }
+
+    private fun createListOfComments(number: Int = 5): List<Comment> {
+        return (1..number).map {
+            Comment(it, "name$it", "email$it@mail.com", "bpdy$it")
         }
     }
 }
