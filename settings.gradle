@@ -1,2 +1,3 @@
 rootProject.name='Citibox'
 include ':app'
+include ':domain'

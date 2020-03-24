@@ -1,0 +1,11 @@
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation kotlinLib
+    testImplementation junit
+    testImplementation mockitoKotlin
+    testImplementation coroutinesTest
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
