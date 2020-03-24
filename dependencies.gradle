@@ -5,8 +5,11 @@ ext {
             mockitoKotlin : '2.2.0',
             coroutinesTest: '1.3.4',
             retrofit      : '2.8.0',
+            room          : '2.2.5',
             moshi         : '2.8.0',
-            mockWebServer : '4.4.0'
+            mockWebServer : '4.4.0',
+            uijunit       : '1.1.1',
+            espresso      : '3.2.0'
     ]
 
     kotlinLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
@@ -16,8 +19,19 @@ ext {
             moshiConverter: "com.squareup.retrofit2:converter-moshi:$versions.moshi"
     ]
 
+    room = [
+            room   : "androidx.room:room-runtime:$versions.room",
+            roomKtx: "androidx.room:room-ktx:$versions.room"
+    ]
+
+    roomCompiler = "androidx.room:room-compiler:$versions.room"
+
     junit = "junit:junit:$versions.junit"
     mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockitoKotlin"
     coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutinesTest"
     mockWebServer = "com.squareup.okhttp3:mockwebserver:$versions.mockWebServer"
+
+    uijunit = "androidx.test.ext:junit:$versions.uijunit"
+    espresso = "androidx.test.espresso:espresso-core:$versions.espresso"
+
 }

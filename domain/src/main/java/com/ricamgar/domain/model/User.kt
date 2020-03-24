@@ -7,18 +7,11 @@ data class User(
     val email: String,
     val address: Address,
     val phone: String,
-    val website: String,
-    val company: Company
+    val website: String
 )
 
 data class Address(
     val street: String,
     val suite: String,
     val city: String
-)
-
-data class Company(
-    val name: String,
-    val catchPhrase: String,
-    val bs: String
 )

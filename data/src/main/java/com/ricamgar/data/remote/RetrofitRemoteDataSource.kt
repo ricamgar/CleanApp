@@ -1,6 +1,9 @@
 package com.ricamgar.data.remote
 
-import com.ricamgar.domain.model.*
+import com.ricamgar.domain.model.Address
+import com.ricamgar.domain.model.Comment
+import com.ricamgar.domain.model.Post
+import com.ricamgar.domain.model.User
 import com.ricamgar.domain.repository.datasource.RemoteDataSource
 
 class RetrofitRemoteDataSource(
@@ -13,8 +16,7 @@ class RetrofitRemoteDataSource(
             val userApi = api.getUserById(it.userId)
             val user = with(userApi) {
                 val address = Address(address.street, address.suite, address.city)
-                val company = Company(company.name, company.catchPhrase, company.bs)
-                User(id, name, username, email, address, phone, website, company)
+                User(id, name, username, email, address, phone, website)
             }
 
             Post(it.id, user, it.title, it.body)

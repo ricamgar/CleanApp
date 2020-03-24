@@ -3,7 +3,10 @@ package com.ricamgar.domain.repository
 import com.nhaarman.mockitokotlin2.doAnswer
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import com.ricamgar.domain.model.*
+import com.ricamgar.domain.model.Address
+import com.ricamgar.domain.model.Comment
+import com.ricamgar.domain.model.Post
+import com.ricamgar.domain.model.User
 import com.ricamgar.domain.repository.datasource.LocalDataSource
 import com.ricamgar.domain.repository.datasource.RemoteDataSource
 import junit.framework.TestCase.assertEquals
@@ -64,10 +67,9 @@ class PostsRepositoryTest {
     private fun createListOfPosts(number: Int = 10): List<Post> {
         return (1..number).map {
             val address = Address("street$it", "suite$it", "city$it")
-            val company = Company("company$it", "phrase$it", "bs$it")
             val user = User(
-                1, "User$it", "username$it", "mail$it@domain.com", address, "123456",
-                "website$it.com", company
+                1, "User$it", "username$it", "mail$it@domain.com", address,
+                "123456", "website$it.com"
             )
             Post(it, user, "title$it", "body$it")
         }
