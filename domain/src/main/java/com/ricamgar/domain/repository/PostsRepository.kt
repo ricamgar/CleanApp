@@ -4,8 +4,9 @@ import com.ricamgar.domain.model.Comment
 import com.ricamgar.domain.model.Post
 import com.ricamgar.domain.repository.datasource.LocalDataSource
 import com.ricamgar.domain.repository.datasource.RemoteDataSource
+import javax.inject.Inject
 
-class PostsRepository(
+class PostsRepository @Inject constructor(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource
 ) {

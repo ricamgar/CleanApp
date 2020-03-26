@@ -2,6 +2,7 @@ apply plugin: 'kotlin'
 
 dependencies {
     implementation kotlinLib
+    implementation 'javax.inject:javax.inject:1'
     testImplementation junit
     testImplementation mockitoKotlin
     testImplementation coroutinesTest
