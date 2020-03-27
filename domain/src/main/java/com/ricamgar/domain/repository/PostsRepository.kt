@@ -15,7 +15,7 @@ class PostsRepository @Inject constructor(
     suspend fun getAll(): Response<List<Post>> {
         return try {
             val posts = remoteDataSource.fetchAllPosts()
-            localDataSource.savePosts(posts)
+            localDataSource.savePosts(*posts.toTypedArray())
             Response(posts, true)
         } catch (e: Throwable) {
             val posts = localDataSource.getAllPosts()
@@ -31,6 +31,17 @@ class PostsRepository @Inject constructor(
     suspend fun getComments(postId: Int): Response<List<Comment>> {
         val comments = remoteDataSource.fetchCommentsByPost(postId)
         return Response(comments, true)
+    }
+
+    suspend fun getPost(postId: Int): Response<Post> {
+        val postEntity = localDataSource.getPost(postId)
+        if (postEntity != null) {
+            return postEntity.run {
+                Response(Post(id, userId, title, body), false)
+            }
+        } else {
+            throw IllegalArgumentException()
+        }
     }
 }
 

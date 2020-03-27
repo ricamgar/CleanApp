@@ -47,6 +47,23 @@ class PostsRepositoryTest {
     }
 
     @Test
+    fun `should return post by id when exists`() = runBlockingTest {
+        val post = createListOfPosts(1).first()
+        whenever(localDataSourceMock.getPost(post.id)).thenReturn(post)
+
+        val response = postsRepository.getPost(post.id)
+
+        assertEquals(response.online, false)
+        assertEquals(response.data, post)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun `should throw when post by id does not exist`() = runBlockingTest {
+        whenever(localDataSourceMock.getPost(0)).thenReturn(null)
+        postsRepository.getPost(0)
+    }
+
+    @Test
     fun `should return user when fetching succeeds`() = runBlockingTest {
         val userId = 0
         val user = createUser()

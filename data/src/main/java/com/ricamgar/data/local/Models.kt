@@ -2,18 +2,10 @@ package com.ricamgar.data.local
 
 import androidx.room.Embedded
 import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "posts",
-    foreignKeys = [ForeignKey(
-        entity = UserEntity::class,
-        parentColumns = ["id"],
-        childColumns = ["userId"],
-        onDelete = CASCADE
-    )]
+    tableName = "posts"
 )
 data class PostEntity(
     @PrimaryKey val id: Int,

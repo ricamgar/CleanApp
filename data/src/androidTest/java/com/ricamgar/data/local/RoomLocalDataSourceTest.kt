@@ -3,9 +3,7 @@ package com.ricamgar.data.local
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.ricamgar.domain.model.Address
 import com.ricamgar.domain.model.Post
-import com.ricamgar.domain.model.User
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -21,9 +19,9 @@ class RoomLocalDataSourceTest {
 
     @Before
     fun setUp() {
-        appDatabase = Room.databaseBuilder(
+        appDatabase = Room.inMemoryDatabaseBuilder(
             InstrumentationRegistry.getInstrumentation().context,
-            AppDatabase::class.java, "app_database"
+            AppDatabase::class.java
         ).build()
         roomLocalDataSource = RoomLocalDataSource(appDatabase)
     }
@@ -36,21 +34,32 @@ class RoomLocalDataSourceTest {
     @Test
     fun shouldInsertAndGetPostsSuccessfully() = runBlocking {
         val posts = createListOfPosts()
-        roomLocalDataSource.savePosts(posts)
+        roomLocalDataSource.savePosts(*posts.toTypedArray())
 
         val savedPosts = roomLocalDataSource.getAllPosts()
 
         assertEquals(posts, savedPosts)
     }
 
+    @Test
+    fun shouldGetPostById() = runBlocking {
+        val post = createListOfPosts(1).first()
+        roomLocalDataSource.savePosts(post)
+
+        val savedPost = roomLocalDataSource.getPost(post.id)
+
+        assertEquals(post, savedPost)
+    }
+
+    @Test
+    fun shouldReturnNullIfPostByIdDoesNotExist() = runBlocking {
+        val savedPost = roomLocalDataSource.getPost(0)
+        assertEquals(savedPost, null)
+    }
+
     private fun createListOfPosts(number: Int = 10): List<Post> {
         return (1..number).map {
-            val address = Address("street$it", "suite$it", "city$it")
-            val user = User(
-                it, "User$it", "username$it", "mail$it@domain.com", address,
-                "123456", "website$it.com"
-            )
-            Post(it + 10, user, "title$it", "body$it")
+            Post(it, it, "title$it", "body$it")
         }
     }
 }

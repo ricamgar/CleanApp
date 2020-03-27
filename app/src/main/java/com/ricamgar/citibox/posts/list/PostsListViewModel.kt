@@ -1,6 +1,5 @@
 package com.ricamgar.citibox.posts.list
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,6 +19,9 @@ class PostsListViewModel @Inject constructor(
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
+    private val _openPostEvent = MutableLiveData<Int>()
+    val openPostEvent: LiveData<Int> = _openPostEvent
+
     init {
         loadPosts()
     }
@@ -30,11 +32,10 @@ class PostsListViewModel @Inject constructor(
             val postsResponse = postsRepository.getAll()
             _posts.value = postsResponse.data
             _loading.value = false
-            Log.e("LKM", loading.value!!.toString())
         }
     }
 
     fun openPost(id: Int) {
-
+        _openPostEvent.value = id
     }
 }
