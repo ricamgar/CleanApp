@@ -4,7 +4,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface JsonPlaceholderApi {
-    @GET("/posts")
+    @GET("posts")
     suspend fun getPosts(): List<PostApi>
 
     @GET("/posts/{id}/comments")

@@ -9,10 +9,16 @@ ext {
             moshi         : '2.8.0',
             mockWebServer : '4.4.0',
             uijunit       : '1.1.1',
-            espresso      : '3.2.0'
+            espresso      : '3.2.0',
+            dagger        : '2.27'
     ]
 
     kotlinLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
+
+    lifecycle = [
+            livedata : "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0",
+            viewmodel: "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    ]
 
     retrofit = [
             retrofit      : "com.squareup.retrofit2:retrofit:$versions.retrofit",
@@ -25,6 +31,17 @@ ext {
     ]
 
     roomCompiler = "androidx.room:room-compiler:$versions.room"
+
+    dagger = [
+            dagger              : "com.google.dagger:dagger:2.27",
+            daggerAndroid       : "com.google.dagger:dagger-android:2.27",
+            daggerAndroidSupport: "com.google.dagger:dagger-android-support:2.27"
+    ]
+
+    daggerCompiler = [
+            dagger       : "com.google.dagger:dagger-compiler:2.27",
+            daggerAndroid: "com.google.dagger:dagger-android-processor:2.27"
+    ]
 
     junit = "junit:junit:$versions.junit"
     mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockitoKotlin"

@@ -31,11 +31,14 @@ android {
 }
 
 dependencies {
-    implementation project(':domain')
+    api project(':domain')
     implementation kotlinLib
     implementation retrofit.values()
     implementation room.values()
     kapt roomCompiler
+
+    api dagger.values()
+    kapt daggerCompiler.values()
 
     testImplementation junit
     testImplementation mockitoKotlin
