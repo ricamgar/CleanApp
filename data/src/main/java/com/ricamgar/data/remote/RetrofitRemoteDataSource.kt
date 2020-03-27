@@ -13,17 +13,14 @@ class RetrofitRemoteDataSource(
     override suspend fun fetchAllPosts(): List<Post> {
         val posts = api.getPosts()
         return posts.map {
-//            val userApi = api.getUserById(it.userId)
-//            val user = with(userApi) {
-//                val address = Address(address.street, address.suite, address.city)
-//                User(id, name, username, email, address, phone, website)
-//            }
-            val address = Address("street", "suite", "city")
-            val user = User(
-                1, "User", "username", "mail$@domain.com", address,
-                "123456", "website.com"
-            )
-            Post(it.id, user, it.title, it.body)
+            Post(it.id, it.userId, it.title, it.body)
+        }
+    }
+
+    override suspend fun fetchUserById(userId: Int): User {
+        return api.getUserById(userId).run {
+            val address = address.run { Address(street, suite, city) }
+            User(id, name, username, email, address, phone, website)
         }
     }
 

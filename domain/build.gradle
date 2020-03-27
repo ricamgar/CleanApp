@@ -4,8 +4,8 @@ dependencies {
     implementation kotlinLib
     implementation 'javax.inject:javax.inject:1'
     testImplementation junit
-    testImplementation mockitoKotlin
-    testImplementation coroutinesTest
+    testApi mockitoKotlin
+    testApi coroutinesTest
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8

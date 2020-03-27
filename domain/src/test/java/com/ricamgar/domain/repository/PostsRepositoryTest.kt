@@ -10,10 +10,12 @@ import com.ricamgar.domain.model.User
 import com.ricamgar.domain.repository.datasource.LocalDataSource
 import com.ricamgar.domain.repository.datasource.RemoteDataSource
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import java.io.IOException
 
+@ExperimentalCoroutinesApi
 class PostsRepositoryTest {
 
     private val localDataSourceMock: LocalDataSource = mock()
@@ -45,6 +47,26 @@ class PostsRepositoryTest {
     }
 
     @Test
+    fun `should return user when fetching succeeds`() = runBlockingTest {
+        val userId = 0
+        val user = createUser()
+        whenever(remoteDataSourceMock.fetchUserById(userId)).thenReturn(user)
+
+        val response = postsRepository.getUser(userId)
+
+        assertEquals(response.online, true)
+        assertEquals(response.data, user)
+    }
+
+    @Test(expected = Throwable::class)
+    fun `should return exception when fetching user fails`() = runBlockingTest {
+        val userId = 0
+        whenever(remoteDataSourceMock.fetchUserById(userId)).doAnswer { throw Throwable() }
+
+        postsRepository.getUser(userId)
+    }
+
+    @Test
     fun `should return comments when fetching succeeds`() = runBlockingTest {
         val postId = 0
         val comments = createListOfComments()
@@ -57,7 +79,7 @@ class PostsRepositoryTest {
     }
 
     @Test(expected = Throwable::class)
-    fun `should return exception when fetching fails`() = runBlockingTest {
+    fun `should return exception when fetching comments fails`() = runBlockingTest {
         val postId = 0
         whenever(remoteDataSourceMock.fetchCommentsByPost(postId)).doAnswer { throw Throwable() }
 
@@ -66,13 +88,16 @@ class PostsRepositoryTest {
 
     private fun createListOfPosts(number: Int = 10): List<Post> {
         return (1..number).map {
-            val address = Address("street$it", "suite$it", "city$it")
-            val user = User(
-                1, "User$it", "username$it", "mail$it@domain.com", address,
-                "123456", "website$it.com"
-            )
-            Post(it, user, "title$it", "body$it")
+            Post(it, it, "title$it", "body$it")
         }
+    }
+
+    private fun createUser(): User {
+        val address = Address("street", "suite", "city")
+        return User(
+            1, "User", "username", "mail@domain.com", address,
+            "123456", "website.com"
+        )
     }
 
     private fun createListOfComments(number: Int = 5): List<Comment> {
