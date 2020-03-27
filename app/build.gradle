@@ -46,6 +46,10 @@ dependencies {
     kapt daggerCompiler.values()
 
     testImplementation junit
+    testImplementation mockitoKotlin
+    testImplementation coroutinesTest
+    testImplementation archTesting
+
     androidTestImplementation uijunit
     androidTestImplementation espresso
 }
