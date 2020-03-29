@@ -1,6 +1,5 @@
 package com.ricamgar.data.remote
 
-import com.ricamgar.domain.model.Address
 import com.ricamgar.domain.model.Comment
 import com.ricamgar.domain.model.Post
 import com.ricamgar.domain.model.User
@@ -19,8 +18,7 @@ class RetrofitRemoteDataSource(
 
     override suspend fun fetchUserById(userId: Int): User {
         return api.getUserById(userId).run {
-            val address = address.run { Address(street, suite, city) }
-            User(id, name, username, email, address, phone, website)
+            User(id, name, username, email)
         }
     }
 

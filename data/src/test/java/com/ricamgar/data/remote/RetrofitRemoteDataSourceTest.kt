@@ -51,7 +51,6 @@ class RetrofitRemoteDataSourceTest {
         assertEquals(user.name, "Leanne Graham")
         assertEquals(user.username, "Bret")
         assertEquals(user.email, "Sincere@april.biz")
-        assertEquals(user.address.street, "Kulas Light")
     }
 
     @Test(expected = Throwable::class)

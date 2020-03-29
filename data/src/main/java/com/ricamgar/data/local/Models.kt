@@ -1,6 +1,5 @@
 package com.ricamgar.data.local
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -19,14 +18,5 @@ data class UserEntity(
     @PrimaryKey val id: Int,
     val name: String,
     val username: String,
-    val email: String,
-    @Embedded val address: AddressEntity,
-    val phone: String,
-    val website: String
-)
-
-data class AddressEntity(
-    val street: String,
-    val suite: String,
-    val city: String
+    val email: String
 )

@@ -4,6 +4,7 @@ import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.ricamgar.domain.model.Post
+import com.ricamgar.domain.model.User
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -57,9 +58,29 @@ class RoomLocalDataSourceTest {
         assertEquals(savedPost, null)
     }
 
+    @Test
+    fun shouldSaveAndGetUserById() = runBlocking {
+        val user = createUser()
+        roomLocalDataSource.saveUser(user)
+
+        val savedUser = roomLocalDataSource.getUser(user.id)
+
+        assertEquals(user, savedUser)
+    }
+
+    @Test
+    fun shouldReturnNullIfUserByIdDoesNotExist() = runBlocking {
+        val savedUser = roomLocalDataSource.getUser(0)
+        assertEquals(savedUser, null)
+    }
+
     private fun createListOfPosts(number: Int = 10): List<Post> {
         return (1..number).map {
             Post(it, it, "title$it", "body$it")
         }
+    }
+
+    private fun createUser(): User {
+        return User(1, "User", "username", "mail@domain.com")
     }
 }

@@ -14,4 +14,10 @@ interface PostsDao {
 
     @Insert
     suspend fun insertPosts(posts: List<PostEntity>)
+
+    @Query("SELECT * FROM users WHERE id = :userId")
+    suspend fun getUser(userId: Int): UserEntity?
+
+    @Insert
+    suspend fun insertUser(user: UserEntity)
 }
