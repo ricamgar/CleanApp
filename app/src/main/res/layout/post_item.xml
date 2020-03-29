@@ -16,12 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:padding="@dimen/screen_padding"
         android:background="?attr/selectableItemBackground"
         android:onClick="@{() -> viewmodel.openPost(post.id)}">
 
         <TextView
-            android:id="@+id/title_text"
+            android:id="@+id/titleTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -29,7 +29,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
         <TextView
-            android:id="@+id/body_text"
+            android:id="@+id/emailTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

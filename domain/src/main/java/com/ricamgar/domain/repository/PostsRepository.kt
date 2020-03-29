@@ -30,6 +30,7 @@ class PostsRepository @Inject constructor(
     suspend fun getUser(userId: Int): Response<User> {
         return try {
             val user = remoteDataSource.fetchUserById(userId)
+            localDataSource.saveUser(user)
             Response.Success(user)
         } catch (e: Throwable) {
             val user = localDataSource.getUser(userId)

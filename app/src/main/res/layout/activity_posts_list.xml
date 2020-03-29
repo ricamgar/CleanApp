@@ -19,7 +19,7 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:onRefreshListener="@{viewmodel::loadPosts   }"
+            app:onRefreshListener="@{viewmodel::loadPosts}"
             app:refreshing="@{viewmodel.loading}">
 
             <androidx.recyclerview.widget.RecyclerView

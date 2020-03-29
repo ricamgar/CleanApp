@@ -1,8 +1,6 @@
 package com.ricamgar.domain.repository
 
-import com.nhaarman.mockitokotlin2.doAnswer
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.*
 import com.ricamgar.domain.model.Comment
 import com.ricamgar.domain.model.Post
 import com.ricamgar.domain.model.User
@@ -74,13 +72,14 @@ class PostsRepositoryTest {
     }
 
     @Test
-    fun `should return user when fetching succeeds`() = runBlockingTest {
+    fun `should return user and save to local when fetching succeeds`() = runBlockingTest {
         val userId = 0
         val user = createUser()
         whenever(remoteDataSourceMock.fetchUserById(userId)).thenReturn(user)
 
         val response = postsRepository.getUser(userId) as Success
 
+        verify(localDataSourceMock, only()).saveUser(user)
         assertEquals(response.data, user)
     }
 

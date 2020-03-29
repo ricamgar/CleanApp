@@ -6,7 +6,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import com.ricamgar.citibox.util.MainCoroutineRule
 import com.ricamgar.domain.model.Post
 import com.ricamgar.domain.repository.PostsRepository
-import com.ricamgar.domain.repository.Response
+import com.ricamgar.domain.repository.Response.Success
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -28,13 +28,13 @@ class PostsListViewModelTest {
 
     @Before
     fun setUp() = runBlockingTest {
-        whenever(postsRepository.getAll()).thenReturn(Response(emptyList(), true))
+        whenever(postsRepository.getAll()).thenReturn(Success(emptyList()))
         postsListViewModel = PostsListViewModel(postsRepository)
     }
 
     @Test
     fun shouldLoadPosts() = runBlockingTest {
-        val response = Response(createListOfPosts(), true)
+        val response = Success(createListOfPosts())
         whenever(postsRepository.getAll()).thenReturn(response)
 
         postsListViewModel.loadPosts()
