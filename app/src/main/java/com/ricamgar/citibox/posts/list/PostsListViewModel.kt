@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ricamgar.citibox.util.Event
+import com.ricamgar.data.remote.ImageLoader
 import com.ricamgar.domain.model.Post
 import com.ricamgar.domain.repository.PostsRepository
 import com.ricamgar.domain.repository.Response.Success
@@ -12,7 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PostsListViewModel @Inject constructor(
-    private val postsRepository: PostsRepository
+    private val postsRepository: PostsRepository,
+    val imageLoader: ImageLoader
 ) : ViewModel() {
 
     private val _posts = MutableLiveData<List<Post>>().apply { value = emptyList() }

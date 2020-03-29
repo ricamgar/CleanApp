@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ricamgar.data.remote.ImageLoader
 import com.ricamgar.domain.model.Comment
 import com.ricamgar.domain.model.Post
 import com.ricamgar.domain.model.User
@@ -13,7 +14,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PostDetailViewModel @Inject constructor(
-    private val postsRepository: PostsRepository
+    private val postsRepository: PostsRepository,
+    val imageLoader: ImageLoader
 ) : ViewModel() {
 
     private val _post = MutableLiveData<Post>()

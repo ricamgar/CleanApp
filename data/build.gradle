@@ -33,6 +33,7 @@ android {
 dependencies {
     api project(':domain')
     implementation kotlinLib
+    implementation picasso
     implementation retrofit.values()
     implementation room.values()
     kapt roomCompiler

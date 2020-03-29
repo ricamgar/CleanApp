@@ -16,11 +16,11 @@ fun setItems(listView: RecyclerView, items: List<Comment>) {
 fun setMailImage(textView: TextView, email: String) {
     when (email.substringAfter(".")) {
         "info" -> {
-            textView.text = "🇬🇧"
+            textView.text = "ℹ️"
             textView.visibility = VISIBLE
         }
         "co.uk" -> {
-            textView.text = "ℹ️"
+            textView.text = "🇬🇧"
             textView.visibility = VISIBLE
         }
         else -> textView.visibility = GONE

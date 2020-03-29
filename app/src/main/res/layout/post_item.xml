@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -21,11 +22,13 @@
         android:orientation="horizontal"
         android:padding="@dimen/screen_padding">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="@dimen/avatar_size"
             android:layout_height="@dimen/avatar_size"
             android:contentDescription="@string/user_image"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/ic_launcher_background"
+            app:avatarId="@{post.userId}"
+            app:imageLoader="@{viewmodel.imageLoader}" />
 
         <TextView
             android:id="@+id/titleTxt"

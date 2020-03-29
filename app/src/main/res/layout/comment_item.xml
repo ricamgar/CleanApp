@@ -22,14 +22,16 @@
         android:paddingBottom="@dimen/screen_padding"
         tools:padding="@dimen/screen_padding">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/commentImg"
             android:layout_width="@dimen/avatar_size"
             android:layout_height="@dimen/avatar_size"
             android:contentDescription="@string/user_image"
             android:src="@drawable/ic_launcher_background"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:avatarId="@{comment.email.hashCode()}"
+            app:imageLoader="@{viewmodel.imageLoader}" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -58,7 +60,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="4dp"
                     app:mailImage="@{comment.email}"
                     tools:text="INFO" />
 
