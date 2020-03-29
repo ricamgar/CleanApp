@@ -7,4 +7,5 @@
     <string name="loading_user">Loading user</string>
     <string name="error_loading_user">Error loading user</string>
     <string name="error_loading_post">Error loading post</string>
+    <string name="error_loading_posts">Error loading posts</string>
 </resources>

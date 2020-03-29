@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewmodel"
             type="com.ricamgar.citibox.posts.list.PostsListViewModel" />
@@ -19,6 +21,7 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             app:onRefreshListener="@{viewmodel::loadPosts}"
             app:refreshing="@{viewmodel.loading}">
 
@@ -26,14 +29,29 @@
                 android:id="@+id/posts_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="@{viewmodel.posts.isEmpty()? View.GONE : View.VISIBLE}"
                 app:items="@{viewmodel.posts}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <TextView
+            style="@style/errorStyle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/error_loading_posts"
+            android:gravity="center"
+            android:visibility="@{viewmodel.error ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Error" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

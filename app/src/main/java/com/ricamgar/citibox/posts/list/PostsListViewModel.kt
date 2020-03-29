@@ -26,18 +26,24 @@ class PostsListViewModel @Inject constructor(
     private val _openPostEvent = MutableLiveData<Event<Int>>()
     val openPostEvent: LiveData<Event<Int>> = _openPostEvent
 
+    private val _error = MutableLiveData<Boolean>()
+    val error: LiveData<Boolean> = _error
+
     init {
         loadPosts()
     }
 
     fun loadPosts() {
+        _error.value = false
         _loading.value = true
         viewModelScope.launch {
             val postsResponse = postsRepository.getAll()
             if (postsResponse is Success) {
                 _posts.value = postsResponse.data
-                _loading.value = false
+            } else {
+                _error.value = true
             }
+            _loading.value = false
         }
     }
 

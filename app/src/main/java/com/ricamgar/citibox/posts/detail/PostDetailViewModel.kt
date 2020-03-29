@@ -44,6 +44,7 @@ class PostDetailViewModel @Inject constructor(
 
     fun init(postId: Int) {
         viewModelScope.launch {
+            _loading.value = LoadingType.POST
             val postResponse = postsRepository.getPost(postId)
             if (postResponse is Success) {
                 _post.value = postResponse.data
@@ -74,15 +75,6 @@ class PostDetailViewModel @Inject constructor(
     }
 
     enum class LoadingType {
-        USER, COMMENTS, NONE
+        POST, USER, COMMENTS, NONE
     }
-//    fun loadPosts() {
-//        _loading.value = true
-//        viewModelScope.launch {
-//            val postsResponse = postsRepository.getAll()
-//            _user.value = postsResponse.data
-//            _loading.value = false
-//            Log.e("LKM", loading.value!!.toString())
-//        }
-//    }
 }
