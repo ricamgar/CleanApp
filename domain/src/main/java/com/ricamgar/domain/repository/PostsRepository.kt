@@ -16,37 +16,50 @@ class PostsRepository @Inject constructor(
         return try {
             val posts = remoteDataSource.fetchAllPosts()
             localDataSource.savePosts(*posts.toTypedArray())
-            Response(posts, true)
+            Response.Success(posts)
         } catch (e: Throwable) {
             val posts = localDataSource.getAllPosts()
-            Response(posts, false)
+            if (posts.isNotEmpty()) {
+                Response.Success(posts)
+            } else {
+                Response.Error(Throwable("Error getting posts"))
+            }
         }
     }
 
     suspend fun getUser(userId: Int): Response<User> {
-        val user = remoteDataSource.fetchUserById(userId)
-        return Response(user, true)
+        return try {
+            val user = remoteDataSource.fetchUserById(userId)
+            Response.Success(user)
+        } catch (e: Throwable) {
+            val user = localDataSource.getUser(userId)
+            if (user != null) {
+                Response.Success(user)
+            } else {
+                Response.Error(Throwable("Error getting user"))
+            }
+        }
     }
 
     suspend fun getComments(postId: Int): Response<List<Comment>> {
-        val comments = remoteDataSource.fetchCommentsByPost(postId)
-        return Response(comments, true)
+        return try {
+            val comments = remoteDataSource.fetchCommentsByPost(postId)
+            Response.Success(comments)
+        } catch (e: Throwable) {
+            Response.Error(Throwable("Error fetching comments"))
+        }
     }
 
     suspend fun getPost(postId: Int): Response<Post> {
         val postEntity = localDataSource.getPost(postId)
-        if (postEntity != null) {
-            return postEntity.run {
-                Response(Post(id, userId, title, body), false)
-            }
-        } else {
-            throw IllegalArgumentException()
-        }
+        return postEntity?.run {
+            Response.Success(Post(id, userId, title, body))
+        } ?: Response.Error(Throwable("Error getting post"))
     }
 }
 
-data class Response<Data>(
-    val data: Data,
-    val online: Boolean
-)
+sealed class Response<out R> {
+    data class Success<out T>(val data: T) : Response<T>()
+    data class Error(val exception: Throwable) : Response<Nothing>()
+}
 

@@ -3,10 +3,11 @@ package com.ricamgar.domain.repository
 import com.nhaarman.mockitokotlin2.doAnswer
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import com.ricamgar.domain.model.Address
 import com.ricamgar.domain.model.Comment
 import com.ricamgar.domain.model.Post
 import com.ricamgar.domain.model.User
+import com.ricamgar.domain.repository.Response.Error
+import com.ricamgar.domain.repository.Response.Success
 import com.ricamgar.domain.repository.datasource.LocalDataSource
 import com.ricamgar.domain.repository.datasource.RemoteDataSource
 import junit.framework.TestCase.assertEquals
@@ -24,26 +25,34 @@ class PostsRepositoryTest {
     private val postsRepository = PostsRepository(localDataSourceMock, remoteDataSourceMock)
 
     @Test
-    fun `should return online data when fetching succeeds`() = runBlockingTest {
+    fun `should return posts when fetching succeeds`() = runBlockingTest {
         val postsList = createListOfPosts()
         whenever(remoteDataSourceMock.fetchAllPosts()).thenReturn(postsList)
 
-        val response = postsRepository.getAll()
+        val response = postsRepository.getAll() as Success
 
-        assertEquals(response.online, true)
         assertEquals(response.data, postsList)
     }
 
     @Test
-    fun `should return offline data when fetching fails`() = runBlockingTest {
+    fun `should return local posts when fetching fails`() = runBlockingTest {
         val postsList = createListOfPosts()
         whenever(remoteDataSourceMock.fetchAllPosts()).doAnswer { throw IOException() }
         whenever(localDataSourceMock.getAllPosts()).thenReturn(postsList)
 
-        val response = postsRepository.getAll()
+        val response = postsRepository.getAll() as Success
 
-        assertEquals(response.online, false)
         assertEquals(response.data, postsList)
+    }
+
+    @Test
+    fun `should return error when local and remote fails`() = runBlockingTest {
+        whenever(remoteDataSourceMock.fetchAllPosts()).doAnswer { throw IOException() }
+        whenever(localDataSourceMock.getAllPosts()).thenReturn(emptyList())
+
+        val response = postsRepository.getAll() as Error
+
+        assertEquals(response.exception::class, Throwable::class)
     }
 
     @Test
@@ -51,16 +60,17 @@ class PostsRepositoryTest {
         val post = createListOfPosts(1).first()
         whenever(localDataSourceMock.getPost(post.id)).thenReturn(post)
 
-        val response = postsRepository.getPost(post.id)
+        val response = postsRepository.getPost(post.id) as Success
 
-        assertEquals(response.online, false)
         assertEquals(response.data, post)
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun `should throw when post by id does not exist`() = runBlockingTest {
         whenever(localDataSourceMock.getPost(0)).thenReturn(null)
-        postsRepository.getPost(0)
+        val response = postsRepository.getPost(0) as Error
+
+        assertEquals(response.exception::class, Throwable::class)
     }
 
     @Test
@@ -69,18 +79,32 @@ class PostsRepositoryTest {
         val user = createUser()
         whenever(remoteDataSourceMock.fetchUserById(userId)).thenReturn(user)
 
-        val response = postsRepository.getUser(userId)
+        val response = postsRepository.getUser(userId) as Success
 
-        assertEquals(response.online, true)
         assertEquals(response.data, user)
     }
 
-    @Test(expected = Throwable::class)
-    fun `should return exception when fetching user fails`() = runBlockingTest {
+    @Test
+    fun `should return user from local if exists`() = runBlockingTest {
+        val userId = 0
+        val user = createUser()
+        whenever(remoteDataSourceMock.fetchUserById(userId)).doAnswer { throw Throwable() }
+        whenever(localDataSourceMock.getUser(userId)).thenReturn(user)
+
+        val response = postsRepository.getUser(userId) as Success
+
+        assertEquals(response.data, user)
+    }
+
+    @Test
+    fun `should return error when fetching user fails and local not found`() = runBlockingTest {
         val userId = 0
         whenever(remoteDataSourceMock.fetchUserById(userId)).doAnswer { throw Throwable() }
+        whenever(localDataSourceMock.getUser(userId)).thenReturn(null)
 
-        postsRepository.getUser(userId)
+        val response = postsRepository.getUser(userId) as Error
+
+        assertEquals(response.exception::class, Throwable::class)
     }
 
     @Test
@@ -89,18 +113,19 @@ class PostsRepositoryTest {
         val comments = createListOfComments()
         whenever(remoteDataSourceMock.fetchCommentsByPost(postId)).thenReturn(comments)
 
-        val response = postsRepository.getComments(postId)
+        val response = postsRepository.getComments(postId) as Success
 
-        assertEquals(response.online, true)
         assertEquals(response.data, comments)
     }
 
-    @Test(expected = Throwable::class)
+    @Test
     fun `should return exception when fetching comments fails`() = runBlockingTest {
         val postId = 0
         whenever(remoteDataSourceMock.fetchCommentsByPost(postId)).doAnswer { throw Throwable() }
 
-        postsRepository.getComments(postId)
+        val response = postsRepository.getComments(postId) as Error
+
+        assertEquals(response.exception::class, Throwable::class)
     }
 
     private fun createListOfPosts(number: Int = 10): List<Post> {
@@ -110,11 +135,7 @@ class PostsRepositoryTest {
     }
 
     private fun createUser(): User {
-        val address = Address("street", "suite", "city")
-        return User(
-            1, "User", "username", "mail@domain.com", address,
-            "123456", "website.com"
-        )
+        return User(1, "User", "username", "mail@domain.com")
     }
 
     private fun createListOfComments(number: Int = 5): List<Comment> {
