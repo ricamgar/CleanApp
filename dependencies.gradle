@@ -5,7 +5,7 @@ ext {
             kotlin        : '1.3.61',
             junit         : '4.12',
             mockitoKotlin : '2.2.0',
-            coroutinesTest: '1.3.4',
+            coroutinesTest: '1.3.0',
             retrofit      : '2.8.1',
             room          : '2.2.5',
             moshi         : '2.8.0',
@@ -13,7 +13,8 @@ ext {
             uijunit       : '1.1.1',
             espresso      : '3.2.0',
             dagger        : '2.27',
-            archTesting   : '2.1.0'
+            archTesting   : '2.1.0',
+            mockitoAndroid: '3.3.3'
     ]
 
     uiLibs = [
@@ -64,7 +65,9 @@ ext {
     mockWebServer = "com.squareup.okhttp3:mockwebserver:$versions.mockWebServer"
 
     uijunit = "androidx.test.ext:junit:$versions.uijunit"
+    coreKtx = "androidx.test:core-ktx:1.2.0"
     espresso = "androidx.test.espresso:espresso-core:$versions.espresso"
     archTesting = "androidx.arch.core:core-testing:$versions.archTesting"
+    mockitoAndroid = "org.mockito:mockito-android:$versions.mockitoAndroid"
 
 }

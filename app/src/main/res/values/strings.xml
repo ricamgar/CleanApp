@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Citibox</string>
-    <string name="user_image">User IMage</string>
+    <string name="user_image">User Image</string>
     <string name="comments">%d comments</string>
     <string name="loading_comments">Loading comments</string>
     <string name="error_loading_comments">Error loading comments</string>
@@ -8,4 +8,5 @@
     <string name="error_loading_user">Error loading user</string>
     <string name="error_loading_post">Error loading post</string>
     <string name="error_loading_posts">Error loading posts</string>
+    <string name="no_posts">There are no posts</string>
 </resources>

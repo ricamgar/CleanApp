@@ -20,7 +20,7 @@ class PostsRepositoryTest {
     private val localDataSourceMock: LocalDataSource = mock()
     private val remoteDataSourceMock: RemoteDataSource = mock()
 
-    private val postsRepository = PostsRepository(localDataSourceMock, remoteDataSourceMock)
+    private val postsRepository = DefaultPostsRepository(localDataSourceMock, remoteDataSourceMock)
 
     @Test
     fun `should return posts when fetching succeeds`() = runBlockingTest {

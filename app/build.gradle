@@ -14,7 +14,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.ricamgar.citibox.CustomTestRunner"
     }
 
     buildTypes {
@@ -54,4 +54,10 @@ dependencies {
 
     androidTestImplementation uijunit
     androidTestImplementation espresso
+    androidTestImplementation coreKtx
+    androidTestImplementation mockitoKotlin
+    androidTestImplementation coroutinesTest
+    androidTestImplementation archTesting
+    androidTestImplementation mockitoAndroid
+    kaptAndroidTest daggerCompiler.values()
 }

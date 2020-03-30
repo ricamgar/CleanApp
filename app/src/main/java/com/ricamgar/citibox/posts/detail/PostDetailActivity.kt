@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ricamgar.citibox.R
 import com.ricamgar.citibox.databinding.ActivityPostDetailBinding
-import com.ricamgar.citibox.di.util.Injectable
+import dagger.android.AndroidInjection
 import javax.inject.Inject
 
-class PostDetailActivity : AppCompatActivity(), Injectable {
+class PostDetailActivity : AppCompatActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -25,6 +25,7 @@ class PostDetailActivity : AppCompatActivity(), Injectable {
     private lateinit var commentsAdapter: CommentsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_post_detail)

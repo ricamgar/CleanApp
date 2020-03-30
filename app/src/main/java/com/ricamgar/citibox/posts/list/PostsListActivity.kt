@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ricamgar.citibox.R
 import com.ricamgar.citibox.databinding.ActivityPostsListBinding
-import com.ricamgar.citibox.di.util.Injectable
 import com.ricamgar.citibox.posts.detail.PostDetailActivity
 import com.ricamgar.citibox.util.EventObserver
+import dagger.android.AndroidInjection
 import javax.inject.Inject
 
-class PostsListActivity : AppCompatActivity(), Injectable {
+class PostsListActivity : AppCompatActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -23,6 +23,7 @@ class PostsListActivity : AppCompatActivity(), Injectable {
     private lateinit var dataBinding: ActivityPostsListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_posts_list)

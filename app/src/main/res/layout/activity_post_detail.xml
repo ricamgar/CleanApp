@@ -33,7 +33,7 @@
                 android:src="@drawable/ic_launcher_background"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:avatarId="@{viewmodel.user.id}"
+                app:avatarId="@{viewmodel.post.userId}"
                 app:imageLoader="@{viewmodel.imageLoader}" />
 
             <LinearLayout

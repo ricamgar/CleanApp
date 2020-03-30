@@ -1,9 +1,6 @@
 package com.ricamgar.citibox.posts.list
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.ricamgar.citibox.util.Event
 import com.ricamgar.data.remote.ImageLoader
 import com.ricamgar.domain.model.Post
@@ -19,6 +16,8 @@ class PostsListViewModel @Inject constructor(
 
     private val _posts = MutableLiveData<List<Post>>().apply { value = emptyList() }
     val posts: LiveData<List<Post>> = _posts
+
+    val empty: LiveData<Boolean> = Transformations.map(_posts) { it.isEmpty() }
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading

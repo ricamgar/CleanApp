@@ -8,8 +8,8 @@ import com.ricamgar.data.local.RoomLocalDataSource
 import com.ricamgar.data.remote.ImageLoader
 import com.ricamgar.data.remote.JsonPlaceholderApi
 import com.ricamgar.data.remote.RetrofitRemoteDataSource
-import com.ricamgar.domain.repository.datasource.LocalDataSource
-import com.ricamgar.domain.repository.datasource.RemoteDataSource
+import com.ricamgar.domain.repository.DefaultPostsRepository
+import com.ricamgar.domain.repository.PostsRepository
 import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
@@ -22,13 +22,12 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideLocalDataSource(application: Application): LocalDataSource =
-        RoomLocalDataSource(createDatabase(application))
-
-    @Singleton
-    @Provides
-    fun provideRemoteDataSource(): RemoteDataSource =
-        RetrofitRemoteDataSource(createApi())
+    fun providePostsRepository(application: Application): PostsRepository {
+        return DefaultPostsRepository(
+            RoomLocalDataSource(createDatabase(application)),
+            RetrofitRemoteDataSource(createApi())
+        )
+    }
 
     @Singleton
     @Provides
