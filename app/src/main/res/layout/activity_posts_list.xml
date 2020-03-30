@@ -9,7 +9,7 @@
 
         <variable
             name="viewmodel"
-            type="com.ricamgar.citibox.posts.list.PostsListViewModel" />
+            type="com.ricamgar.cleanapp.posts.list.PostsListViewModel" />
 
     </data>
 

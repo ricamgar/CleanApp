@@ -7,11 +7,11 @@
 
         <import type="android.view.View" />
 
-        <import type="com.ricamgar.citibox.posts.detail.PostDetailViewModel.LoadingType" />
+        <import type="com.ricamgar.cleanapp.posts.detail.PostDetailViewModel.LoadingType" />
 
         <variable
             name="viewmodel"
-            type="com.ricamgar.citibox.posts.detail.PostDetailViewModel" />
+            type="com.ricamgar.cleanapp.posts.detail.PostDetailViewModel" />
 
     </data>
 

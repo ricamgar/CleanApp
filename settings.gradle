@@ -1,4 +1,4 @@
-rootProject.name='Citibox'
+rootProject.name='CleanApp'
 include ':app'
 include ':domain'
 include ':data'

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Citibox</string>
+    <string name="app_name">CleanApp</string>
     <string name="user_image">User Image</string>
     <string name="comments">%d comments</string>
     <string name="loading_comments">Loading comments</string>
