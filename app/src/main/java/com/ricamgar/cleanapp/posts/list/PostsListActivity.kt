@@ -12,18 +12,17 @@ import com.ricamgar.cleanapp.databinding.ActivityPostsListBinding
 import com.ricamgar.cleanapp.posts.detail.PostDetailActivity
 import com.ricamgar.cleanapp.util.EventObserver
 import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class PostsListActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel: PostsListViewModel by viewModels { viewModelFactory }
+    private val viewModel: PostsListViewModel by viewModels()
     private lateinit var postsAdapter: PostsAdapter
     private lateinit var dataBinding: ActivityPostsListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_posts_list)

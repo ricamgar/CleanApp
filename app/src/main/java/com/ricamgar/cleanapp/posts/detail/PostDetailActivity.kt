@@ -14,18 +14,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ricamgar.cleanapp.R
 import com.ricamgar.cleanapp.databinding.ActivityPostDetailBinding
 import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class PostDetailActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel: PostDetailViewModel by viewModels { viewModelFactory }
+    private val viewModel: PostDetailViewModel by viewModels()
     private lateinit var dataBinding: ActivityPostDetailBinding
     private lateinit var commentsAdapter: CommentsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_post_detail)

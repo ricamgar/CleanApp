@@ -10,13 +10,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import com.ricamgar.cleanapp.DaggerTestCleanAppComponent
 import com.ricamgar.cleanapp.R
 import com.ricamgar.cleanapp.TestCleanApp
 import com.ricamgar.cleanapp.di.TestDataModule
 import com.ricamgar.domain.model.Post
 import com.ricamgar.domain.repository.PostsRepository
 import com.ricamgar.domain.repository.Response
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
@@ -25,6 +25,7 @@ import org.junit.runner.RunWith
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class PostsListActivityTest {
 
     private val postsRepository: PostsRepository = mock()
@@ -33,13 +34,6 @@ class PostsListActivityTest {
     fun setUp() {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         val app = instrumentation.targetContext.applicationContext as TestCleanApp
-
-        DaggerTestCleanAppComponent
-            .builder()
-            .application(app)
-            .dataModule(TestDataModule(postsRepository))
-            .build()
-            .inject(app)
     }
 
     @Test

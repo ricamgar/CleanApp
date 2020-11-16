@@ -1,5 +1,6 @@
 package com.ricamgar.cleanapp.posts.detail
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,7 +14,7 @@ import com.ricamgar.domain.repository.Response.Success
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PostDetailViewModel @Inject constructor(
+class PostDetailViewModel @ViewModelInject constructor(
     private val postsRepository: PostsRepository,
     val imageLoader: ImageLoader
 ) : ViewModel() {
