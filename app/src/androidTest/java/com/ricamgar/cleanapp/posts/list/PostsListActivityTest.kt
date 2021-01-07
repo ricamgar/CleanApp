@@ -7,34 +7,40 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import com.ricamgar.cleanapp.R
-import com.ricamgar.cleanapp.TestCleanApp
-import com.ricamgar.cleanapp.di.TestDataModule
+import com.ricamgar.data.DataModule
+import com.ricamgar.data.remote.ImageLoader
 import com.ricamgar.domain.model.Post
 import com.ricamgar.domain.repository.PostsRepository
 import com.ricamgar.domain.repository.Response
+import dagger.hilt.android.testing.BindValue
+import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
+@UninstallModules(DataModule::class)
 @HiltAndroidTest
 class PostsListActivityTest {
 
-    private val postsRepository: PostsRepository = mock()
+    @BindValue
+    @JvmField
+    val postsRepository: PostsRepository = mock()
 
-    @Before
-    fun setUp() {
-        val instrumentation = InstrumentationRegistry.getInstrumentation()
-        val app = instrumentation.targetContext.applicationContext as TestCleanApp
-    }
+    @BindValue
+    @JvmField
+    val imageLoader: ImageLoader = mock()
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     @Test
     fun shouldDisplayPostsWhenNotEmpty() = runBlockingTest {
